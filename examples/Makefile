@@ -1,9 +1,9 @@
-CXXFLAGS+=-g -O2 -Werror
+CXXFLAGS+=-g -O0 -Werror
 override CXXFLAGS+=-std=c++0x -Wall
 
 CLEAN :=
 
-all: dump-sections dump-segments dump-syms dump-tree dump-lines find-pc
+all: dump-sections dump-segments dump-syms dump-tree dump-lines find-pc pc-to-type
 
 # Find libs
 export PKG_CONFIG_PATH=../elf:../dwarf
@@ -39,6 +39,10 @@ CLEAN += dump-lines dump-lines.o
 find-pc: find-pc.o $(LIBS)
 	$(LINK.cc) $^ $(LOADLIBES) $(LDLIBS) -o $@
 CLEAN += find-pc find-pc.o
+
+pc-to-type: pc-to-type.o $(LIBS)
+	$(LINK.cc) $^ $(LOADLIBES) $(LDLIBS) -o $@
+CLEAN += pc-to-type pc-to-type.o
 
 clean:
 	rm -f $(CLEAN) .*.d
